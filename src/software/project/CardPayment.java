@@ -16,7 +16,7 @@ this.machine = machine;
 
 
 void pay(int amount) {
-    int cardno = client.getCardnum(); 
+    int cardno = client.getCardnum();  
     int scode = client.getSecurityCode(); 
     String date = client.getExpDate(); 
     int balance = client.getBalance();
