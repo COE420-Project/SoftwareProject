@@ -23,7 +23,7 @@ public void setStatus(boolean status) {
 	this.status = status;
 }
 
-int calulateCost(int power) {
+int calculateCost(int power) {
 	return 0;
 }
 void start() {

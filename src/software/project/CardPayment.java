@@ -1,7 +1,6 @@
 package software.project;
 
-import java.awt.*; 
-import javax.swing.*;
+
 public class CardPayment {
 private Machine machine;
 private Client client; // Assuming you have a Client object associated with the payment
@@ -11,16 +10,12 @@ this.machine = machine;
 
 }
 
-
-
-
-
 void pay(int amount) {
     int cardno = client.getCardnum();  
     int scode = client.getSecurityCode(); 
     String date = client.getExpDate(); 
     int balance = client.getBalance();
-    //int price = machine.calulateCost();
+  //  int price = machine.calculateCost(int power);
 
 //    if (CheckValidInfo(cardno, scode, date) == true ) {
 //        

@@ -4,6 +4,8 @@
  */
 package software.project;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author User
@@ -231,26 +233,49 @@ public class LoginForm extends javax.swing.JFrame {
     private void pass_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pass_fieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_pass_fieldActionPerformed
-
+ //mohammed
     private void rgstr_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rgstr_btnActionPerformed
         // TODO add your handling code here:
         jTabbedPane1.setSelectedIndex(1);
+        String name = name_field.getText();
+        String email = email_field.getText();
+        String username = username_field.getText();
+        String password =pass_field.getText();
+
+
+    // here we are inserting what the user entered to our db
+    DBconnection dbConnection = new DBconnection();
+    boolean success = dbConnection.register_client(name, email, username, password);
+
+    if (success) {
+        JOptionPane.showMessageDialog(this, "Thank you "+name + " for registering in our system.");
+    } else {
+        JOptionPane.showMessageDialog(this, "Registration failed! please try again");
+    }
+
     }//GEN-LAST:event_rgstr_btnActionPerformed
 
+    
+    // mohammed
     private void login_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_btnActionPerformed
         // TODO add your handling code here:
-        String pass = String. valueOf(pass_lgn_field. getPassword());
-        String uname = this.username_field.getText();
-        if(uname.equals("admin") && pass.equals("admin"))
-        {
-            new Admin_Interface().setVisible(true); 
-            this.dispose();
+    String username = username_field.getText();
+    String password = String.valueOf(pass_lgn_field.getPassword());
+
+    Login login = new Login(); // creating object of login
+    boolean isValid = login.checkVerification(username, password); // to check if logIn is valid or not
+
+    if (isValid) {
+        String userType = login.getType();
+        if (userType.equals("admin")) {
+            new Admin_Interface().setVisible(true);
+        } else if (userType.equals("client")) {
+            new User_Interface().setVisible(true);
         }
-        else
-        {   
-            new User_Interface().setVisible(true); 
-            this.dispose();
-        }
+        dispose(); // Close the login form
+    } else {
+        JOptionPane.showMessageDialog(this, "Invalid username or password, please try again");
+    }
     }//GEN-LAST:event_login_btnActionPerformed
 
     private void back_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_btnActionPerformed

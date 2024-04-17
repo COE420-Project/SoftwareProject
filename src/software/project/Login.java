@@ -1,30 +1,22 @@
 package software.project;
 
-import java.awt.*; 
-import javax.swing.*;
-
 public class Login{
-String type ;
 
+private String type;
 
-boolean checkVarification() {
-	
-	//-----------
-	return false;
+    public String getType() {
+        return type;
+    }
+   
+    
+    //mohammed
+    public boolean checkVerification(String username, String password) {
+        DBconnection dbConnection = new DBconnection();
+        boolean isValid = dbConnection.checkCredentials(username, password);
+        if (isValid) {
+            type = dbConnection.getUserType(username);
+        }
+        return isValid;
+    }
 }
-
-
-}
-
-
-
-
-
-
-	
-	
-	
-	
-	
-	
 
