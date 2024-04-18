@@ -12,9 +12,9 @@ Offers(Client client ){
 
 boolean CheckUserType(){
 	
-	if(client.getType()=='r') {
-		return true;
-	}
+//	if(client.getType()=='r') {
+//		return true;
+//	}
 	
 	return false;
 }

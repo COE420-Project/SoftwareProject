@@ -6,16 +6,16 @@ abstract public class User {
 	String email;
 	private String password;
         String type;
-    String id;
+        String id;
  
 
-	public User(String name, String email, String password, String id, String type) {
-        this.Name = name;
-        this.email = email;
-        this.password = password;
-        this.id = id;
-        this.type = type;
-    }
+//	public User(String name, String email, String password, String id, String type) {
+//        this.Name = name;
+//        this.email = email;
+//        this.password = password;
+//        this.id = id;
+//        this.type = type;
+//    }
 
 	
 	public String getName() {

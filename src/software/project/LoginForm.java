@@ -259,17 +259,17 @@ public class LoginForm extends javax.swing.JFrame {
     // mohammed
     private void login_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_btnActionPerformed
         // TODO add your handling code here:
-    String username = username_field.getText();
+    String email = username_field.getText();
     String password = String.valueOf(pass_lgn_field.getPassword());
 
     Login login = new Login(); // creating object of login
-    boolean isValid = login.checkVerification(username, password); // to check if logIn is valid or not
+    boolean isValid = login.checkVerification(email, password); // to check if logIn is valid or not
 
     if (isValid) {
         String userType = login.getType();
-        if (userType.equals("admin")) {
+        if (userType.equals("ADMIN")) {
             new Admin_Interface().setVisible(true);
-        } else if (userType.equals("client")) {
+        } else if (userType.equals("CLIENT")) {
             new User_Interface().setVisible(true);
         }
         dispose(); // Close the login form

@@ -26,6 +26,7 @@ public class DBconnection {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             // Connect to Oracle Database
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            System.out.println("Connected to Oracle database!");
         } catch (ClassNotFoundException | SQLException e) {
             javax.swing.JLabel label = new javax.swing.JLabel("SQL Error - Retreiving username/password.");
             label.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 10));
@@ -50,52 +51,70 @@ public class DBconnection {
     }
     
     
-    
-    public boolean checkCredentials(String email, String password) {
-        try {
-            String query = "SELECT COUNT(*) FROM users WHERE username = ? AND password = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, email);
-            statement.setString(2, password);
-            ResultSet rs = statement.executeQuery();
-            rs.next();
-            int count = rs.getInt(1);
-            return count > 0; // If count > 0, credentials are valid
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false; // Error occurred, return false
+   public boolean checkCredentials(String email, String password) {
+    try {
+        // Checking in ADMIN_ACCOUNT table
+        String adminQuery = "SELECT COUNT(*) FROM ADMIN_ACCOUNT WHERE EMAIL = ? AND PASS = ?";
+        PreparedStatement adminStatement = connection.prepareStatement(adminQuery);
+        adminStatement.setString(1, email);
+        adminStatement.setString(2, password);
+        ResultSet adminResultSet = adminStatement.executeQuery();
+        adminResultSet.next();
+        int adminCount = adminResultSet.getInt(1);
+        
+        if (adminCount == 0) {
+            // checking in CLIENT TABLE
+            String clientQuery = "SELECT COUNT(*) FROM CLIENT_ACCOUNT WHERE EMAIL = ? AND PASS = ?";
+            PreparedStatement clientStatement = connection.prepareStatement(clientQuery);
+            clientStatement.setString(1, email);
+            clientStatement.setString(2, password);
+            ResultSet clientResultSet = clientStatement.executeQuery();
+            clientResultSet.next();
+            int clientCount = clientResultSet.getInt(1);
+            
+            return clientCount > 0; // If count > 0, credentials are valid for client
+        } else {
+            return true; // Credentials are valid for admin
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false; // Error occurred, return false
     }
+}
+
     
     public String getUserType(String username) {
         try {
-            String query = "SELECT type FROM users WHERE username = ?";
+            String query = "SELECT CLIENT_ID FROM CLIENT_ACCOUNT WHERE EMAIL = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                return rs.getString("type");
+                return "CLIENT";
             } else {
-                return null; // Username not found
+                return "ADMIN"; // Username not found
             }
         } catch (SQLException e) {
             e.printStackTrace();
             return null; // Error occurred
         }
     }
-    
- //Mohamad // registerig a client
-public boolean register_client(String name, String email, String username, String password) {
+//Mohamad // registerig a client
+private static int clientIdCounter = 0;
+public boolean register_client(String fname, String username, String pass, String email) {
     try {
-        String query = "INSERT INTO users (name, email, username, password, type) VALUES (?, ?, ?, ?, ?)";
+        clientIdCounter++;
+        String clientId = "C" + clientIdCounter;
+        String query = "INSERT INTO CLIENT_ACCOUNT (CLIENT_ID, FNAME, USERNAME, PASS, EMAIL) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement s = connection.prepareStatement(query);
-        s.setString(1, name);
-        s.setString(2, email);
+        s.setString(1, clientId);
+        s.setString(2, fname);
         s.setString(3, username);
-        s.setString(4, password);
-        s.setString(5, "client"); // in our system all registred users are clients only, admins are already registered
+        s.setString(4, pass);
+        s.setString(5, email); // in our system all registred users are clients only, admins are already registered
         
-        // checking if executed statemnt was succefull
+
+        // checking if executed statemnt was successfull
         int rowsInserted = s.executeUpdate();
         return rowsInserted > 0;
     } catch (SQLException e) {
