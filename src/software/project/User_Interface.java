@@ -5,6 +5,7 @@
 package software.project;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -741,6 +742,45 @@ public class User_Interface extends javax.swing.JFrame {
 
     private void bookmach_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookmach_btnActionPerformed
         // TODO add your handling code here:
+        String m_id = ( String) machineID_combobox.getSelectedItem(); // getting selected id
+        String m_type = ( String) machineType_combobox.getSelectedItem(); // getting selected machone type
+        DBconnection dc = new DBconnection(); // creating an object of DB
+        String status = (String )  dc.getMachineStatus(m_id); // getting status of selected machine
+        int id = (int) m_id.charAt(1); // real id
+
+        
+        // checking if machine is ON or off
+        if(status.equals("ON")){
+                     aval_lbl.setText("NO");
+
+        JOptionPane.showMessageDialog(null, "Cannot book machine. It is already in use.", "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+        else if (status.equals("OFF")){
+        
+         // checking Type of machine
+         
+         aval_lbl.setText("yes");
+           if(m_type.equals("washing ")) {
+            Machine m = new Washing_Machine(id,false );
+            }
+           else {
+           Machine m = new Drying_Machine(id,false );
+
+           }
+           }
+
+        
+      
+        
+        
+        
+        
+        
+        
+        
+        
+        
         new Payment_Gateway().setVisible(true);
     }//GEN-LAST:event_bookmach_btnActionPerformed
 
