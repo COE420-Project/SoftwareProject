@@ -1,8 +1,10 @@
 package software.project;
 
-import java.awt.*; 
-import javax.swing.*;
 public class Admin extends User{
+
+    public Admin(String name, String email, String password, String id, String type) {
+        super(name, email, password, id, type);
+    }
 	
 void ViewALLInfo() {
 	

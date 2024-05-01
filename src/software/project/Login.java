@@ -10,11 +10,11 @@ private String type;
    
     
     //mohammed
-    public boolean checkVerification(String username, String password) {
+    public boolean checkVerification(String email, String password) {
         DBconnection dbConnection = new DBconnection();
-        boolean isValid = dbConnection.checkCredentials(username, password);
+        boolean isValid = dbConnection.checkCredentials(email, password);
         if (isValid) {
-            type = dbConnection.getUserType(username);
+            type = dbConnection.getUserType(email);
         }
         return isValid;
     }
